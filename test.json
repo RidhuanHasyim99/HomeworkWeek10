@@ -1,0 +1,54 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 450,
+    "title": "Word Population Density",
+    "projection": {"type": "equalEarth"},
+    "layer": [
+      {
+        "data": {
+          "url": "ne_110m.json",
+          "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+        },
+        "transform": [
+            {
+                "lookup": "properties.NAME",
+                "from": {
+                "data": {
+                    "url": "data/populationdensity.csv"
+                },
+                "key": "Country",
+                "fields": ["DensityRound"]
+                }
+            },
+            {"calculate": "datum.DensityRound + 0.1", "as": "Density"}
+            ],
+        "mark": {"type": "geoshape"},
+        "encoding": {
+        "color": {
+            "field": "Density",
+            "type": "quantitative",
+            "scale": {"type": "log"}
+        },
+        "tooltip": [
+            {"field": "properties.NAME", "type": "nominal", "title": "Country"},
+            {"field": "DensityRound", "type": "quantitative", "title": "Denisty Value"}
+        ]
+        }
+      },
+      {
+        "data": {
+          "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+          "format": {"type": "topojson", "feature": "oceans"}
+        },
+        "mark": {"type": "geoshape", "fill": "skyblue"}
+      },
+      {
+        "data": {
+          "url": "ne_110m.json",
+          "format": {"type": "topojson", "feature": "ne_110m_graticules_30"}
+        },
+        "mark": {"type": "geoshape", "fill": null, "stroke": "lightgray"}
+      }
+    ]
+  }

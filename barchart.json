@@ -1,0 +1,78 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 450,
+    "title": "Top 5 countries Co2 and deforestation",
+    "data": {
+      "values": [
+        {"country":"Russia", "group": "Co2 Emission", "value":1.6},
+        {"country":"Russia", "group": "Tree Loss", "value":6.52},
+        {"country":"U.S", "group": "Co2 Emission", "value":5},
+        {"country":"U.S", "group": "Tree Loss", "value":2.04},
+        {"country":"Indonesia", "group": "Co2 Emission", "value":0.5},
+        {"country":"Indonesia", "group": "Tree Loss", "value":0.841}
+      ]
+    },
+
+
+    "params": [
+        {
+        "name": "Country_selection",
+        "bind": {
+        "input": "select",
+        "options": [
+        null,
+        "U.S",
+        "Russia",
+        "Indonesia"
+        ],
+        "labels":[
+        "Show All",
+        "U.S",
+        "Russia",
+        "Indonesia"
+        ],
+        "name": "Country Selection: "
+        }
+        }
+        ],
+
+    "transform": [
+        {"filter":"Country_selection == null || datum.country == Country_selection"}
+    ],
+
+    "layer": [
+        {
+            "mark": "bar",
+            "encoding": {
+            "x": {"field": "country"},
+            "y": {"field": "value", "type": "quantitative"},
+            "xOffset": {"field": "group"},
+            "color": {"field": "group"},
+            "tooltip": [
+                {"field": "country", "type": "nominal"},
+                {"field": "value", "type": "quantitative",  "format": ","}
+                ]
+            } 
+        },
+        {
+            "mark": {
+                "type": "text",
+                "text": ["Russia has the most tree loss","and 4th highest Co2 emission"],
+                "fontStyle": "italic",
+                "baseline": "middle",
+                "dx": -12,
+                "fontSize": 11.5
+
+            },
+            "encoding": {
+                "color": {"value": "black"}
+                
+          }
+        }
+
+    ]
+        
+        
+        
+  }
